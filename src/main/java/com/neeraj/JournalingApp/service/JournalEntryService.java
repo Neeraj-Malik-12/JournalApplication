@@ -5,8 +5,6 @@ import com.neeraj.JournalingApp.repository.JournalEntryRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,8 +15,8 @@ public class JournalEntryService {
     @Autowired
     private JournalEntryRepository journalEntryRepository;
 
-    public void saveEntries(JournalEntry journalEntry){
-        journalEntryRepository.save(journalEntry);
+    public JournalEntry saveEntries(JournalEntry journalEntry){
+        return journalEntryRepository.save(journalEntry);
     }
 
     public List<JournalEntry> getEntries(){
@@ -39,6 +37,7 @@ public class JournalEntryService {
         if(oldEntry != null){
             oldEntry.setTitle((newEntry.getTitle() != null && !newEntry.getTitle().isBlank()) ? newEntry.getTitle() : oldEntry.getTitle());
             oldEntry.setContent((newEntry.getContent() != null && !newEntry.getContent().isBlank()) ? newEntry.getContent() : oldEntry.getContent());
+            journalEntryRepository.save(oldEntry);
         }
     }
 
